@@ -260,7 +260,10 @@ use_gsheets = False
 df = None
 gs_error = None
 
-if os.path.exists(CREDENTIALS_FILE):
+# Vérifier si on a les credentials (en local OU en Streamlit Cloud via secrets)
+has_credentials = os.path.exists(CREDENTIALS_FILE) or 'GOOGLE_CREDENTIALS' in st.secrets
+
+if has_credentials:
     try:
         df = load_sheet_data().copy()
         if df is not None and not df.empty:
@@ -272,7 +275,7 @@ if os.path.exists(CREDENTIALS_FILE):
         gs_error = str(e)
         df = None
 else:
-    gs_error = "Fichier credentials.json introuvable."
+    gs_error = "Credentials Google non trouvés (credentials.json en local OU GOOGLE_CREDENTIALS dans secrets Streamlit)."
 
 st.session_state.use_gsheets = use_gsheets
 
