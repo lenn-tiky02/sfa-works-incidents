@@ -80,69 +80,115 @@ def get_service_account_email():
     except Exception:
         return ""
 
+_SA_REQUIRED_FIELDS = {"type", "private_key", "client_email", "token_uri"}
+
+
+def _looks_like_service_account(d):
+    """Vrai si le dict ressemble à un compte de service Google."""
+    try:
+        return _SA_REQUIRED_FIELDS.issubset(set(d.keys()))
+    except Exception:
+        return False
+
+
+def _coerce_to_creds_dict(value):
+    """Convertir une valeur de secret (string JSON ou mapping) en dict de credentials."""
+    import json as json_lib
+    if value is None:
+        return None
+    if isinstance(value, str):
+        try:
+            return json_lib.loads(value)
+        except Exception:
+            return None
+    try:
+        return dict(value)
+    except Exception:
+        return None
+
+
+def find_service_account_dict():
+    """Détecter automatiquement les credentials du compte de service.
+
+    Recherche, dans l'ordre :
+      1. le fichier credentials.json en local ;
+      2. une clé de secret nommée explicitement (GOOGLE_CREDENTIALS / google_credentials) ;
+      3. n'importe quelle clé/section de st.secrets qui ressemble à un compte de service
+         (utile si les champs ont été collés sous une section comme [general]).
+    Retourne (creds_dict, source) ou (None, None).
+    """
+    import json as json_lib
+
+    # 1. Fichier local
+    if os.path.exists(CREDENTIALS_FILE):
+        try:
+            with open(CREDENTIALS_FILE, encoding="utf-8") as f:
+                return json_lib.load(f), f"Fichier local: {CREDENTIALS_FILE}"
+        except Exception:
+            pass
+
+    # Récupérer les clés de secrets de manière sûre
+    try:
+        secret_keys = list(st.secrets.keys())
+    except Exception:
+        secret_keys = []
+
+    # 2. Clés explicites connues
+    for key in ("GOOGLE_CREDENTIALS", "google_credentials", "gcp_service_account"):
+        if key in secret_keys:
+            d = _coerce_to_creds_dict(st.secrets[key])
+            if d and _looks_like_service_account(d):
+                return d, f"Streamlit Secrets [{key}]"
+
+    # 3. Balayage: toute valeur (string JSON ou section) qui ressemble à un compte de service
+    for key in secret_keys:
+        try:
+            value = st.secrets[key]
+        except Exception:
+            continue
+        d = _coerce_to_creds_dict(value)
+        if d and _looks_like_service_account(d):
+            return d, f"Streamlit Secrets [{key}] (auto-détecté)"
+        # 3b. Chercher un niveau plus profond: section contenant une clé/JSON credentials
+        #     (ex. [general] avec GOOGLE_CREDENTIALS='''...''' à l'intérieur)
+        if d:
+            for sub_key, sub_val in d.items():
+                sub = _coerce_to_creds_dict(sub_val)
+                if sub and _looks_like_service_account(sub):
+                    return sub, f"Streamlit Secrets [{key}][{sub_key}] (auto-détecté)"
+
+    # 4. Cas particulier: les champs sont collés directement au niveau racine des secrets
+    #    (ex. type=..., private_key=..., client_email=... sans section)
+    try:
+        root = {k: st.secrets[k] for k in secret_keys}
+        if _looks_like_service_account(root):
+            return dict(root), "Streamlit Secrets (niveau racine)"
+    except Exception:
+        pass
+
+    return None, None
+
+
 @st.cache_resource(show_spinner=False)
 def _get_worksheet():
     """Ouvrir la 1re feuille du Google Sheet (connexion mise en cache)."""
     from google.oauth2.service_account import Credentials
     import gspread
-    import json as json_lib
-    
-    creds_dict = None
-    creds_source = None
-    
-    # Priorité 1: Streamlit Secrets - format chaîne JSON (multilignes)
-    if 'GOOGLE_CREDENTIALS' in st.secrets:
-        creds_source = "Streamlit Secrets [GOOGLE_CREDENTIALS] (string)"
-        try:
-            creds_value = st.secrets['GOOGLE_CREDENTIALS']
-            # Si c'est une chaîne (format triple-quotes), la parser en JSON
-            if isinstance(creds_value, str):
-                creds_dict = json_lib.loads(creds_value)
-            # Sinon c'est un dict TOML (format [google_credentials])
-            else:
-                creds_dict = creds_value
-        except Exception as e:
-            raise Exception(f"Erreur de parsing du secret GOOGLE_CREDENTIALS: {e}")
-    
-    # Priorité 2: Streamlit Secrets - format TOML dict
-    elif 'google_credentials' in st.secrets:
-        creds_source = "Streamlit Secrets [google_credentials] (TOML dict)"
-        creds_dict = dict(st.secrets['google_credentials'])
-    
-    # Priorité 3: Fichier credentials.json en local
-    elif os.path.exists(CREDENTIALS_FILE):
-        creds_source = f"Fichier local: {CREDENTIALS_FILE}"
-        with open(CREDENTIALS_FILE, encoding='utf-8') as f:
-            creds_dict = json_lib.load(f)
-    
-    # Aucune source trouvée
-    else:
-        raise Exception(
-            "❌ Credentials introuvables!\n\n"
-            "**Streamlit Cloud - Option 1 (Recommandée):**\n"
-            "1. Settings > Secrets\n"
-            "2. Copie-colle le contenu de credentials.json:\n"
-            "   ```\n"
-            "   GOOGLE_CREDENTIALS = \"\"\"{\n"
-            "     \"type\": \"service_account\",\n"
-            "     \"project_id\": \"...\",\n"
-            "     ...\n"
-            "   }\"\"\"\n"
-            "   ```\n\n"
-            "**Streamlit Cloud - Option 2:**\n"
-            "   ```\n"
-            "   [google_credentials]\n"
-            "   type = \"service_account\"\n"
-            "   project_id = \"...\"\n"
-            "   ...\n"
-            "   ```\n\n"
-            "**Local:**\n"
-            "- Place credentials.json dans: " + CREDENTIALS_FILE
-        )
-    
+
+    creds_dict, creds_source = find_service_account_dict()
+
     if not creds_dict:
-        raise Exception("Credentials dict est vide!")
-    
+        try:
+            keys_txt = ", ".join(st.secrets.keys())
+        except Exception:
+            keys_txt = "(aucun secret)"
+        raise Exception(
+            "Credentials du compte de service introuvables. "
+            f"Clés de secrets vues: {keys_txt}. "
+            "Collez le contenu de credentials.json dans Settings → Secrets "
+            "(les champs type/private_key/client_email doivent être présents)."
+        )
+
     try:
         creds = Credentials.from_service_account_info(creds_dict, scopes=GS_SCOPES)
         client = gspread.authorize(creds)
@@ -310,22 +356,9 @@ use_gsheets = False
 df = None
 gs_error = None
 
-# Lister en toute sécurité les clés disponibles dans st.secrets (diagnostic)
-def _list_secret_keys():
-    try:
-        return list(st.secrets.keys())
-    except Exception:
-        return []
-
-_secret_keys = _list_secret_keys()
-
-# Vérifier si on a les credentials (en local OU en Streamlit Cloud via secrets).
-# On accepte les deux formats: GOOGLE_CREDENTIALS (string) et google_credentials (TOML dict).
-has_credentials = (
-    os.path.exists(CREDENTIALS_FILE)
-    or 'GOOGLE_CREDENTIALS' in _secret_keys
-    or 'google_credentials' in _secret_keys
-)
+# Détection automatique des credentials (fichier local OU n'importe quelle clé de secrets)
+_creds_dict, _creds_source = find_service_account_dict()
+has_credentials = _creds_dict is not None
 
 if has_credentials:
     try:
@@ -339,12 +372,15 @@ if has_credentials:
         gs_error = f"Erreur lors du chargement: {str(e)}"
         df = None
 else:
-    keys_txt = ', '.join(_secret_keys) if _secret_keys else '(aucun secret détecté)'
+    try:
+        keys_txt = ', '.join(st.secrets.keys())
+    except Exception:
+        keys_txt = '(aucun secret détecté)'
     gs_error = (
         "❌ Credentials Google non trouvés!\n\n"
-        f"**Clés secrètes actuellement vues par Streamlit:** {keys_txt}\n\n"
-        "La clé doit s'appeler EXACTEMENT `GOOGLE_CREDENTIALS`.\n\n"
-        "**Streamlit Cloud → Settings → Secrets, colle ceci:**\n"
+        f"**Clés secrètes vues par Streamlit:** {keys_txt}\n\n"
+        "Le contenu de `credentials.json` (champs `type`, `private_key`, `client_email`...) "
+        "doit être présent dans Settings → Secrets. Format recommandé :\n"
         "```\n"
         "GOOGLE_CREDENTIALS = '''{\n"
         "  \"type\": \"service_account\",\n"
