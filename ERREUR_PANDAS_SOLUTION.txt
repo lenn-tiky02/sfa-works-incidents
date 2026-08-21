@@ -1,0 +1,153 @@
+════════════════════════════════════════════════════════════════════════════
+
+                    🔧 ERREUR PANDAS - SOLUTION RAPIDE
+
+════════════════════════════════════════════════════════════════════════════
+
+ERREUR QUE VOUS AVEZ:
+====================
+
+ModuleNotFoundError: No module named 'pkg_resources'
+Getting requirements to build wheel did not run successfully.
+
+
+RAISON:
+=======
+
+pandas==2.0.3 essaie de compiler depuis les sources.
+Python 3.12 a besoin de setuptools/pkg_resources pour compiler.
+Ce n'est pas disponible dans l'environnement.
+
+
+SOLUTION: 3 FICHIERS PRÊTS À UTILISER
+======================================
+
+✅ clean_and_restart.ps1     (PowerShell - Recommandé)
+✅ clean_and_restart.bat     (Batch)
+✅ requirements.txt          (Mis à jour avec pandas==2.1.4)
+
+
+PROCHAINES ÉTAPES (CHOISISSEZ UNE):
+====================================
+
+OPTION 1: Nettoyage Complet avec PowerShell (Recommandé)
+========================================================
+
+1. Ouvrir PowerShell
+   Appuyez sur: Win + X, puis A
+
+2. Taper:
+   cd "D:\SFA Works\T-05"
+   .\clean_and_restart.ps1
+
+3. Attendre 3-5 minutes
+4. Voilà! Dashboard s'affiche à http://localhost:8501
+
+✅ C'est la méthode la plus fiable!
+
+
+OPTION 2: Nettoyage Complet avec Batch
+=======================================
+
+1. Double-cliquez sur: clean_and_restart.bat
+2. Attendre 3-5 minutes
+3. Voilà! Dashboard s'affiche
+
+✅ Aussi fiable, plus simple
+
+
+OPTION 3: Récupération de l'Environnement Existant
+==================================================
+
+Si vous ne voulez pas tout supprimer:
+
+1. Ouvrir PowerShell
+   Appuyez sur: Win + X, puis A
+
+2. Taper:
+   cd "D:\SFA Works\T-05"
+   .\venv\Scripts\Activate.ps1
+   pip install --upgrade pip setuptools wheel
+   pip install -r requirements.txt
+   streamlit run app.py
+
+4. Attendre 2-3 minutes
+5. Voilà! Dashboard s'affiche
+
+
+OPTION 4: Utiliser la Version Minimale
+=======================================
+
+Si vous avez des problèmes avec pandas==2.1.4:
+
+1. Ouvrir PowerShell
+   Appuyez sur: Win + X, puis A
+
+2. Taper:
+   cd "D:\SFA Works\T-05"
+   Remove-Item -Recurse -Force venv
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
+   pip install -r requirements_minimal.txt
+   streamlit run app.py
+
+3. Attendre 2-3 minutes
+4. Voilà! Dashboard s'affiche
+
+════════════════════════════════════════════════════════════════════════════
+
+CE QUI A ÉTÉ CHANGÉ:
+====================
+
+Avant:
+  pandas==2.0.3     ← Compilation nécessaire
+
+Après:
+  pandas==2.1.4     ← Wheel pré-compilé pour Python 3.12
+
+Avantage: Installation 10x plus rapide, pas d'erreur!
+
+
+RÉSUMÉ:
+=======
+
+Double-cliquez sur: clean_and_restart.bat
+
+OU
+
+Exécutez dans PowerShell: .\clean_and_restart.ps1
+
+Et tout fonctionne! ✅
+
+════════════════════════════════════════════════════════════════════════════
+
+VÉRIFICATION RAPIDE:
+====================
+
+Après installation, dans PowerShell:
+
+pip list | findstr pandas
+→ Devrait afficher: pandas 2.1.4 ou plus
+
+pip list | findstr streamlit
+→ Devrait afficher: streamlit 1.28.1
+
+════════════════════════════════════════════════════════════════════════════
+
+SI VOUS AVEZ ENCORE DES PROBLÈMES:
+===================================
+
+Lire:
+  • FIX_PANDAS_BUILD.md      (Explications techniques)
+  • TROUBLESHOOTING.md       (Guide complet)
+  • 3_ETAPES.txt             (3 étapes simples)
+
+════════════════════════════════════════════════════════════════════════════
+
+C'EST SIMPLE:
+
+1. Double-cliquez: clean_and_restart.bat
+2. Attendez 3-5 minutes
+3. Dashboard s'affiche ✅
+
+════════════════════════════════════════════════════════════════════════════

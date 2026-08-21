@@ -1,0 +1,271 @@
+════════════════════════════════════════════════════════════════════════════
+
+                        ✅ MISE À JOUR TERMINÉE!
+
+════════════════════════════════════════════════════════════════════════════
+
+STATISTIQUES AJOUTÉES PAR CATÉGORIE
+====================================
+
+🏆 TOP STATISTIQUES (NOUVELLE SECTION)
+
+Chaque page de catégorie affiche maintenant:
+
+┌───────────────────────────────────────────────────────────┐
+│ 🏆 TOP STATISTIQUES                                       │
+│                                                           │
+│ 🗺️ Top 5 Département         ⏰ Top 5 Heures            │
+│                                                           │
+│ 1. Nord: 20 (30.8%)          1. 09h-10h: 8 (12.3%)      │
+│ 2. Sud: 18 (27.7%)           2. 14h-15h: 7 (10.8%)      │
+│ 3. Est: 15 (23.1%)           3. 08h-09h: 6 (9.2%)       │
+│ 4. Ouest: 12 (18.5%)         4. 10h-11h: 5 (7.7%)       │
+│ 5. Centre: 10 (15.4%)        5. 15h-16h: 4 (6.2%)       │
+└───────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════
+
+CE QUI S'AFFICHE MAINTENANT PAR CATÉGORIE
+==========================================
+
+1️⃣  INDICATEURS CLÉS
+    [📋 Total] [📊 Uniques] [🗺️ Depts] [✅ Complétude]
+
+2️⃣  TOP STATISTIQUES ← NOUVEAU!
+    [Top 5 Département]  [Top 5 Heures]
+
+3️⃣  FILTRE DÉPARTEMENT
+    [Dropdown pour filtrer par département]
+
+4️⃣  GRAPHIQUES DÉTAILLÉS
+    [Distribution Département - BAR] [Distribution Heure - BAR]
+
+5️⃣  TIMELINE
+    [Évolution dans le temps - LINE]
+
+6️⃣  FILTRE DE TABLEAU
+    [🔍 Champ de recherche + 🔄 Réinitialiser]
+
+7️⃣  TABLEAU COMPLET
+    [Données brutes avec toutes les colonnes]
+
+════════════════════════════════════════════════════════════════════════════
+
+EXEMPLE COMPLET: PAGE "VOLS / CAMBRIOLAGES"
+==============================================
+
+📊 VOLS / CAMBRIOLAGES
+
+📊 INDICATEURS CLÉS
+[📋 Total: 65] [📊 Uniques: 64] [🗺️ Depts: 5] [✅ 93.5%]
+
+─────────────────────────────────────────────────────────────
+
+🏆 TOP STATISTIQUES                    ← CECI EST NOUVEAU!
+
+🗺️ Top 5 Département          ⏰ Top 5 Heures
+
+1. Nord: 20 (30.8%)           1. 09h-10h: 8 (12.3%)
+2. Sud: 18 (27.7%)            2. 14h-15h: 7 (10.8%)
+3. Est: 15 (23.1%)            3. 08h-09h: 6 (9.2%)
+4. Ouest: 12 (18.5%)          4. 10h-11h: 5 (7.7%)
+5. Centre: 10 (15.4%)         5. 15h-16h: 4 (6.2%)
+
+─────────────────────────────────────────────────────────────
+
+🔍 FILTRER PAR DÉPARTEMENT
+
+[Tous] [Nord] [Sud] [Est] [Ouest] [Centre]
+📊 65 incidents
+
+─────────────────────────────────────────────────────────────
+
+📊 GRAPHIQUES DÉTAILLÉS
+
+Distribution Département              Distribution Heure
+
+[BAR CHART]                          [BAR CHART]
+
+─────────────────────────────────────────────────────────────
+
+📅 DISTRIBUTION DANS LE TEMPS
+
+[LINE CHART]
+
+─────────────────────────────────────────────────────────────
+
+📋 DONNÉES
+
+🔍 Filtrer: [_________] [🔄 Réinit]
+
+[TABLEAU]
+
+════════════════════════════════════════════════════════════════════════════
+
+POUR CHAQUE CATÉGORIE VOUS VERREZ:
+===================================
+
+✅ Vue Générale
+   → Tous les incidents (pas de TOP STATS)
+
+✅ Vols / Cambriolages
+   → TOP: Nord 30.8%, 09h-10h 12.3%
+
+✅ Dommages Matériels
+   → TOP: [Ses chiffres], [Ses heures]
+
+✅ Blessures Corporelles
+   → TOP: [Ses chiffres], [Ses heures]
+
+✅ Risques Électriques
+   → TOP: [Ses chiffres], [Ses heures]
+
+✅ Risques Construction
+   → TOP: [Ses chiffres], [Ses heures]
+
+✅ Autres
+   → TOP: [Ses chiffres], [Ses heures]
+
+════════════════════════════════════════════════════════════════════════════
+
+UTILITÉ DU TOP 5 DÉPARTEMENT
+=============================
+
+En un coup d'œil, vous savez:
+
+"Quel département a le plus de problèmes?"
+
+Exemple:
+  Page "Blessures Corporelles"
+  ↓
+  Top 5 Département:
+    1. Atelier: 15 (22.7%)
+    2. Bureau: 12 (18.2%)
+    3. Magasin: 10 (15.2%)
+  ↓
+  Conclusion: L'atelier a 22.7% des blessures
+  Action: Renforcer la sécurité à l'atelier!
+
+════════════════════════════════════════════════════════════════════════════
+
+UTILITÉ DU TOP 5 HEURES
+========================
+
+En un coup d'œil, vous savez:
+
+"À quelle heure y a-t-il le plus de problèmes?"
+
+Exemple:
+  Page "Dommages Matériels"
+  ↓
+  Top 5 Heures:
+    1. 13h-14h: 9 (18.4%)
+    2. 12h-13h: 8 (16.3%)
+    3. 14h-15h: 7 (14.3%)
+  ↓
+  Conclusion: 13h-14h (midi) est le moment critique
+  Action: Surveiller davantage entre 12h et 15h!
+
+════════════════════════════════════════════════════════════════════════════
+
+FICHIERS MODIFIÉS
+=================
+
+app.py
+  ✅ Ajout de la section "🏆 TOP STATISTIQUES"
+  ✅ Calcul du Top 5 Département par catégorie
+  ✅ Calcul du Top 5 Heures par catégorie
+  ✅ Affichage en format lisible avec chiffres et %
+
+NOUVEAU: TOP_STATS_EXPLIQUE.md
+  ✅ Documentation complète
+  ✅ Explications détaillées
+
+NOUVEAU: STATS_COMPLETE.txt
+  ✅ Résumé visuel
+  ✅ Exemples d'utilisation
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPES POUR RELANCER L'APP
+==========================
+
+Option 1: Double-cliquez sur ce fichier
+  → D:\SFA Works\T-05\clean_and_restart.bat
+
+Option 2: PowerShell
+  cd "D:\SFA Works\T-05"
+  .\clean_and_restart.ps1
+
+Option 3: Terminal
+  cd "D:\SFA Works\T-05"
+  python -m pip install --upgrade -r requirements.txt
+  streamlit run app.py
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSULTAT ATTENDU
+================
+
+Après redémarrage:
+
+1. Ouvrir l'app (http://localhost:8501)
+
+2. Cliquer sur "Vols / Cambriolages" (dans la barre latérale)
+
+3. Voir en haut:
+   📊 INDICATEURS CLÉS
+   [Chiffres]
+
+4. Voir ensuite:
+   🏆 TOP STATISTIQUES
+   1. Nord: 20 (30.8%)
+   1. 09h-10h: 8 (12.3%)
+
+5. Voir les Graphiques
+
+6. Voir la Timeline
+
+7. Filtrer le Tableau
+
+════════════════════════════════════════════════════════════════════════════
+
+CHECKLIST
+=========
+
+- [ ] Redémarrer l'app
+- [ ] Aller sur "Vols / Cambriolages"
+- [ ] Voir "🏆 TOP STATISTIQUES"
+- [ ] Voir "Top 5 Département" avec chiffres et %
+- [ ] Voir "Top 5 Heures" avec chiffres et %
+- [ ] Aller sur "Blessures Corporelles"
+- [ ] Vérifier que le Top 5 est différent
+- [ ] Aller sur "Dommages Matériels"
+- [ ] Vérifier que le Top 5 est encore différent
+- [ ] SUCCÈS!
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSUMÉ FINAL
+============
+
+✅ Chaque catégorie affiche maintenant:
+
+   📊 Indicateurs Clés (total, uniques, depts, complétude)
+   
+   🏆 TOP STATISTIQUES (NEW!)
+      • Top 5 Département
+      • Top 5 Heures
+      • Avec chiffres et pourcentages
+   
+   📊 Graphiques (BAR + LINE)
+   
+   🔍 Filtre de Tableau
+
+════════════════════════════════════════════════════════════════════════════
+
+PRÊT À LANCER! 🚀
+
+clean_and_restart.bat
+
+════════════════════════════════════════════════════════════════════════════

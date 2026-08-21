@@ -1,0 +1,96 @@
+════════════════════════════════════════════════════════════════════════════
+
+                      ✅ 3 ÉTAPES POUR LANCER L'APP
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 1: CORRIGER L'ERREUR (déjà fait!)
+=======================================
+
+❌ AVANT:
+   ERROR: Could not find a version that satisfies the requirement openpyxl>=3.10.0
+
+✅ APRÈS:
+   Le fichier requirements.txt a été corrigé!
+   Nouvelle version: openpyxl==3.1.5 (au lieu de >=3.10.0)
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 2: SUPPRIMER L'ANCIEN ENVIRONNEMENT (recommandé)
+=======================================================
+
+Ouvrir PowerShell:
+  • Appuyez sur: Win + X
+  • Sélectionnez: Windows PowerShell
+
+Taper:
+  cd "D:\SFA Works\T-05"
+  Remove-Item -Recurse -Force venv
+
+Attendez que c'est fini.
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 3: LANCER L'APP
+====================
+
+OPTION A (Le Plus Simple):
+  Double-cliquez sur: start.bat
+  
+  (Fin!)
+
+OPTION B (Recommandé):
+  Dans PowerShell (déjà ouvert):
+  Taper: .\launch.ps1
+  
+  (Fin!)
+
+OPTION C (Manuel):
+  Dans PowerShell (déjà ouvert):
+  python -m venv venv
+  .\venv\Scripts\Activate.ps1
+  pip install -r requirements.txt
+  streamlit run app.py
+  
+  (Fin!)
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSULTAT:
+=========
+
+Vous verrez dans le terminal:
+  "You can now view your Streamlit app in your browser.
+   Local URL: http://localhost:8501"
+
+Un navigateur s'ouvre automatiquement.
+
+✅ SUCCÈS! Le dashboard s'affiche!
+
+════════════════════════════════════════════════════════════════════════════
+
+DURÉE TOTALE:
+=============
+
+Étape 1: ✅ Déjà fait (0 min)
+Étape 2: 1 minute (supprimer venv)
+Étape 3: 2-3 minutes (installation)
+
+TOTAL: 3-4 minutes
+
+════════════════════════════════════════════════════════════════════════════
+
+PROBLÈME?
+==========
+
+Si vous avez encore une erreur:
+  • Lire: LISEZ_DABORD.txt
+  • Ou: TROUBLESHOOTING.md
+
+════════════════════════════════════════════════════════════════════════════
+
+C'EST PARTI! 🚀
+
+Double-cliquez: start.bat
+
+════════════════════════════════════════════════════════════════════════════

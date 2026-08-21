@@ -1,0 +1,171 @@
+════════════════════════════════════════════════════════════════════════════
+
+                    🔧 SOLUTION - CATÉGORIES NON DÉTECTÉES
+
+════════════════════════════════════════════════════════════════════════════
+
+PROBLÈME
+========
+
+Seules "Vue Générale" et "Autres" s'affichent dans la barre latérale.
+
+RAISON
+======
+
+Les mots-clés de détection ne correspondent pas aux données réelles du fichier.
+
+Par exemple:
+  ❌ On cherche: "vol", "cambriolage"
+  ✅ Mais les données contiennent: "Vol de projecteur", "Cambriolage"
+
+════════════════════════════════════════════════════════════════════════════
+
+SOLUTION RAPIDE - 3 ÉTAPES
+==========================
+
+ÉTAPE 1: Identifier les mots réels
+   1. Ouvrir le fichier: c:\Users\ANDRIANAIVOSOA Tsiky\Downloads\TO-05.xlsx
+   2. Noter les termes utilisés pour chaque type d'incident
+   3. Noter les colonnes qui contiennent les descriptions
+
+ÉTAPE 2: Mettre à jour les mots-clés
+   1. Ouvrir: D:\SFA Works\T-05\app.py
+   2. Chercher la fonction: def categorize_incident(row_data):
+   3. Remplacer les mots-clés avec les termes réels
+
+ÉTAPE 3: Relancer l'app
+   1. Double-cliquez: clean_and_restart.bat
+   2. Aller dans l'expander "🔍 Aperçu Catégorisation"
+   3. Vérifier que toutes les catégories apparaissent
+
+════════════════════════════════════════════════════════════════════════════
+
+EXEMPLE DÉTAILLÉ
+================
+
+Si votre fichier contient:
+
+  Description
+  ─────────────────────────────
+  "Vol du projecteur"              → 'Vols / Cambriolages'
+  "Sono endommagée"                → 'Dommages Matériels'
+  "Accident chute employé"         → 'Blessures Corporelles'
+  "Surtension électrique"          → 'Risques Électriques'
+  "Travaux maintenance échafaudage" → 'Risques Construction'
+
+ALORS, dans app.py (ligne ~20-40), remplacez:
+
+╔═══════════════════════════════════════════════════════════════╗
+║ AVANT (mots-clés génériques):                               ║
+║                                                               ║
+║ if any(word in text for word in                             ║
+║        ['vol', 'cambriolage', 'volé']):                     ║
+║     return 'Vols / Cambriolages'                            ║
+║ elif any(word in text for word in                           ║
+║         ['sono', 'projecteur', 'ordinateur', 'ampli']):     ║
+║     return 'Dommages Matériels'                             ║
+║ # etc.                                                       ║
+╚═══════════════════════════════════════════════════════════════╝
+
+PAR:
+
+╔═══════════════════════════════════════════════════════════════╗
+║ APRÈS (mots-clés du fichier réel):                          ║
+║                                                               ║
+║ if any(word in text for word in                             ║
+║        ['vol du', 'vol de', 'vol le']):                     ║
+║     return 'Vols / Cambriolages'                            ║
+║ elif any(word in text for word in                           ║
+║         ['endommagé', 'endommagée', 'sono']):               ║
+║     return 'Dommages Matériels'                             ║
+║ elif any(word in text for word in                           ║
+║         ['accident', 'chute']):                              ║
+║     return 'Blessures Corporelles'                          ║
+║ elif any(word in text for word in                           ║
+║         ['surtension', 'électrique']):                       ║
+║     return 'Risques Électriques'                            ║
+║ elif any(word in text for word in                           ║
+║         ['travaux', 'maintenance', 'échafaudage']):         ║
+║     return 'Risques Construction'                           ║
+║ else:                                                        ║
+║     return 'Autres'                                          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+════════════════════════════════════════════════════════════════════════════
+
+VÉRIFIER LA CATÉGORISATION
+===========================
+
+Après modification et redémarrage:
+
+1. Lancer l'app
+2. Chercher le texte: "🔍 Aperçu Catégorisation"
+3. Cliquer pour développer
+4. Voir la distribution:
+   ✅ Si vous voyez toutes les catégories → OK!
+   ❌ Si vous voyez surtout "Autres" → Mots-clés à corriger
+
+════════════════════════════════════════════════════════════════════════════
+
+LIEU DES MODIFICATIONS
+======================
+
+Fichier: D:\SFA Works\T-05\app.py
+Fonction: categorize_incident(row_data)
+Lignes: ~20-40
+
+Chercher:
+  if any(word in text for word in [...]):
+
+Remplacer les mots-clés entre les crochets.
+
+════════════════════════════════════════════════════════════════════════════
+
+ASTUCE DE DÉBOGAGE
+==================
+
+Exécuter ce script pour voir les données réelles:
+
+  python D:\SFA Works\T-05\debug_categories.py
+
+Cela affichera:
+  • Les colonnes du fichier
+  • Les premières lignes
+  • Le contenu exact pour chaque incident
+
+Utiliser ces informations pour corriger les mots-clés.
+
+════════════════════════════════════════════════════════════════════════════
+
+RELANCER L'APP
+==============
+
+Après modifications:
+
+  Double-cliquez: D:\SFA Works\T-05\clean_and_restart.bat
+
+Attendez quelques minutes pour que l'app redémarre.
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSULTAT ATTENDU
+================
+
+✅ Barre latérale affiche:
+   • Vue Générale
+   • Vols / Cambriolages          (si mots-clés corrects)
+   • Dommages Matériels           (si mots-clés corrects)
+   • Blessures Corporelles        (si mots-clés corrects)
+   • Risques Électriques          (si mots-clés corrects)
+   • Risques Construction         (si mots-clés corrects)
+   • Autres                       (reste)
+
+✅ Expander "🔍 Aperçu Catégorisation" montre la distribution
+
+════════════════════════════════════════════════════════════════════════════
+
+C'EST LA CLÉ!
+
+Trouvez les mots réels dans TO-05.xlsx et mettez à jour app.py!
+
+════════════════════════════════════════════════════════════════════════════

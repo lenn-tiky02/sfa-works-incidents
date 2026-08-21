@@ -1,0 +1,23 @@
+# Secrets - NE JAMAIS COMMITER
+credentials.json
+.streamlit/secrets.toml
+.streamlit/secrets.toml.local
+*.key
+*.pem
+.env
+.env.local
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Données locales / logs
+_*.log
+_*.txt
+*.db
+
+# OS
+.DS_Store
+Thumbs.db

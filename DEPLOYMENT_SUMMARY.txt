@@ -1,0 +1,149 @@
+════════════════════════════════════════════════════════════════════════════
+
+                        🚀 DÉPLOIEMENT STREAMLIT CLOUD
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSUMÉ SIMPLIFIÉ
+
+Vous allez transformer votre app locale en application Web publique (ou privée).
+
+Processus:
+  Local (PowerShell) → GitHub → Streamlit Cloud (navigateur)
+       ↓                             ↓
+   git push               Déploiement automatique
+
+
+AVANTAGES
+
+✅ Accessible de n'importe où (http/https)
+✅ Gratuit (Streamlit Cloud)
+✅ Les données restent dans votre Google Sheet
+✅ Déploiement automatique après git push
+✅ Logs et monitoring intégrés
+
+════════════════════════════════════════════════════════════════════════════
+
+3 GRANDES ÉTAPES
+
+ÉTAPE 1: Code local → GitHub (10 min)
+  □ git init / commit / push
+
+ÉTAPE 2: Créer/configurer Streamlit Cloud (5 min)
+  □ Créer compte Streamlit
+  □ Lier GitHub
+  □ Déployer
+
+ÉTAPE 3: Ajouter les Secrets (2 min)
+  □ Coller credentials.json comme "GOOGLE_CREDENTIALS"
+  □ Vérifier la connexion
+
+════════════════════════════════════════════════════════════════════════════
+
+FICHIERS D'AIDE CRÉÉS
+
+📖 STREAMLIT_CLOUD_DEPLOYMENT.md
+   • Guide complet + dépannage
+   • Architecture détaillée
+   
+📄 DEPLOYMENT_STEPS.txt
+   • 10 étapes numérotées
+   • Très détaillé (ce que taper ligne par ligne)
+   
+📋 DEPLOYMENT_SUMMARY.txt
+   • Ce fichier (vue d'ensemble)
+
+════════════════════════════════════════════════════════════════════════════
+
+CODE PRÊT ✅
+
+app.py modifié pour:
+  ✅ Lire credentials depuis st.secrets (Streamlit Cloud)
+  ✅ Garder fallback local (credentials.json)
+  ✅ S'adapter à l'environnement (local vs cloud)
+
+requirements.txt:
+  ✅ Contient gspread, google-auth
+
+.gitignore:
+  ✅ Exclut credentials.json (sécurité)
+
+.streamlit/config.toml:
+  ✅ Thème et configuration optimisés
+
+════════════════════════════════════════════════════════════════════════════
+
+VOS COMPTES EXISTANTS À VÉRIFIER
+
+GitHub:
+  ✅ Compte créé ? (https://github.com)
+  ✅ Username noté ?
+
+Google Sheets:
+  ✅ Sheet natif créé ? (1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0)
+  ✅ Partagé avec to-05-649@... en Éditeur ?
+
+════════════════════════════════════════════════════════════════════════════
+
+PROCESSUS RAPIDE (RÉSUMÉ POUR DÉJÀ CONNAISSANTS GIT)
+
+1. git init && git add -A && git commit -m "Initial"
+2. Créer repo GitHub
+3. git remote add origin ... && git push -u origin main
+4. Aller sur https://share.streamlit.io/ → New app
+5. Lier GitHub repo (VOTRE_USERNAME/sfa-works-incidents, branch main, app.py)
+6. Une fois déployé → Settings → Secrets → ajouter GOOGLE_CREDENTIALS
+7. ✅ App live !
+
+════════════════════════════════════════════════════════════════════════════
+
+URL FINALE RESSEMBLERA À
+
+https://share.streamlit.io/VOTRE_USERNAME/sfa-works-incidents
+
+(Remplacez VOTRE_USERNAME par votre username GitHub réel)
+
+════════════════════════════════════════════════════════════════════════════
+
+FLUX APRÈS DÉPLOIEMENT
+
+Modification locale:
+  app.py → git push → GitHub → Streamlit Cloud (redéploiement auto) → Live
+
+Changement de données:
+  Web app → modification catégorie → Google Sheets → prochaine relecture
+
+════════════════════════════════════════════════════════════════════════════
+
+SÉCURITÉ ✅
+
+credentials.json:
+  ✅ Reste LOCAL uniquement
+  ✅ Jamais sur GitHub (bloquer par .gitignore)
+  ✅ Partagé via Streamlit Cloud Secrets (chiffré)
+
+Repository GitHub:
+  ✅ PRIVÉ (données sensibles)
+  ✅ Accessible seulement à vous
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE SUIVANTE
+
+Ouvrez DEPLOYMENT_STEPS.txt et suivez les étapes 1-10.
+
+C'est très étapes-par-étapes. Vous ne pouvez pas vous tromper.
+
+════════════════════════════════════════════════════════════════════════════
+
+QUESTIONS AVANT DE COMMENCER ?
+
+✅ Vous avez un compte GitHub ?
+✅ Vous avez le Google Sheet natif partagé ?
+✅ Vous comprenez git (init/add/commit/push) ?
+
+Si non sur un des points, dites-moi avant de commencer.
+
+════════════════════════════════════════════════════════════════════════════
+
+ALLONS-Y! 🚀

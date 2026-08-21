@@ -1,0 +1,213 @@
+════════════════════════════════════════════════════════════════════════════
+
+           DÉPLOIEMENT SUR STREAMLIT CLOUD - ÉTAPES NUMÉROTÉES
+
+════════════════════════════════════════════════════════════════════════════
+
+CONTEXTE:
+  • Votre app est prête localement
+  • Google Sheets natif: 1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0
+  • credentials.json: protégé (ne sera pas uploadé)
+
+TEMPS ESTIMÉ: 15-20 minutes (sur papier)
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 1: PRÉPARER GIT LOCALEMENT (PowerShell, D:\SFA Works\T-05)
+──────────────────────────────────────────────────────────────────────────────
+
+1.1. Initialiser Git:
+     git init
+     git add -A
+     git commit -m "Initial commit: SFA Works incidents dashboard with Google Sheets"
+
+1.2. Vérifier:
+     git status
+     ✅ Doit montrer: "On branch master, nothing to commit"
+     ✅ credentials.json ne doit PAS être listé
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 2: CRÉER UN COMPTE GITHUB (si pas encore)
+──────────────────────────────────────────────────────────────────────────────
+
+2.1. Allez sur https://github.com
+2.2. Cliquez "Sign up"
+2.3. Remplissez le formulaire (email, mot de passe, username)
+2.4. Confirmez votre email (vérifier inbox)
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 3: CRÉER UN DÉPÔT GITHUB
+──────────────────────────────────────────────────────────────────────────────
+
+3.1. Connecté à GitHub, cliquez "+" en haut à droite → "New repository"
+3.2. Remplissez:
+     • Repository name: sfa-works-incidents
+     • Description: "SFA Works incidents dashboard with Google Sheets"
+     • Private ✅ (données sensibles)
+     • NE cochez PAS "Initialize this repository with"
+3.3. Cliquez "Create repository"
+3.4. Vous voyez une page vide avec des instructions Git
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 4: POUSSER LE CODE SUR GITHUB (PowerShell)
+──────────────────────────────────────────────────────────────────────────────
+
+4.1. Copier vos instructions GitHub (ressemble à):
+     git remote add origin https://github.com/VOTRE_USERNAME/sfa-works-incidents.git
+     git branch -M main
+     git push -u origin main
+
+4.2. Les coller dans PowerShell (une ligne à la fois)
+4.3. Entrer vos identifiants GitHub si demandé
+4.4. Attendre "Enumerating objects... ✓"
+
+4.5. Vérifier:
+     Allez sur https://github.com/VOTRE_USERNAME/sfa-works-incidents
+     ✅ Vos fichiers doivent être là (app.py, requirements.txt, etc.)
+     ✅ credentials.json NE doit PAS y être
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 5: CRÉER UN COMPTE STREAMLIT CLOUD (si pas encore)
+──────────────────────────────────────────────────────────────────────────────
+
+5.1. Allez sur https://share.streamlit.io/
+5.2. Cliquez "Sign in with GitHub"
+5.3. Autorisez Streamlit à accéder à vos repos
+5.4. Complétez les informations (email, nom, etc.)
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 6: DÉPLOYER L'APP (Streamlit Cloud)
+──────────────────────────────────────────────────────────────────────────────
+
+6.1. Sur https://share.streamlit.io/, cliquez "New app"
+6.2. Remplissez:
+     • Repository: VOTRE_USERNAME/sfa-works-incidents
+     • Branch: main
+     • Main file path: app.py
+6.3. Cliquez "Deploy"
+6.4. ⏳ Attendez (3-5 minutes)
+     L'app se compile et démarre
+
+6.5. Vous verrez un message de succès
+     URL: https://share.streamlit.io/VOTRE_USERNAME/sfa-works-incidents
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 7: CONFIGURER LES SECRETS (Streamlit Cloud)
+──────────────────────────────────────────────────────────────────────────────
+
+⚠️  CRITIQUE: credentials.json doit être ajouté en tant que Secret, pas en fichier
+
+7.1. Sur votre app Streamlit Cloud, en haut à droite, cliquez votre avatar (☰)
+7.2. Cliquez "Settings"
+7.3. À gauche, cliquez "Secrets"
+7.4. Copiez le CONTENU COMPLET de votre fichier credentials.json local
+7.5. Collez-le dans le champ Secrets avec la clé "GOOGLE_CREDENTIALS":
+
+     [general]
+     GOOGLE_CREDENTIALS = """
+     {
+       "type": "service_account",
+       "project_id": "unique-hour-385920",
+       "private_key_id": "17858f691bf91d997fca0a6bd625b13691fa1f68",
+       ...
+       (TOUT le contenu JSON)
+     }
+     """
+
+7.6. Cliquez "Save"
+7.7. L'app redémarre automatiquement avec les secrets
+7.8. ✅ Vérifier: Barre latérale affiche "🟢 Connecté à Google Sheets"
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 8: VÉRIFIER QUE LE GOOGLE SHEET EST TOUJOURS PARTAGÉ
+──────────────────────────────────────────────────────────────────────────────
+
+8.1. Ouvrez le Google Sheet:
+     https://docs.google.com/spreadsheets/d/1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0/edit
+
+8.2. Cliquez "Partager" (en haut à droite)
+8.3. Vérifiez que ce compte est partagé en ÉDITEUR:
+     to-05-649@unique-hour-385920.iam.gserviceaccount.com
+
+8.4. Si pas présent, ajoutez-le en tant qu'Éditeur
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 9: TESTER L'APP EN LIGNE
+──────────────────────────────────────────────────────────────────────────────
+
+9.1. Ouvrez l'URL de votre app:
+     https://share.streamlit.io/VOTRE_USERNAME/sfa-works-incidents
+
+9.2. Vérifications:
+     ✅ La barre latérale affiche "🟢 Connecté à Google Sheets"
+     ✅ Les données du Sheet sont chargées
+     ✅ Vous pouvez modifier une catégorie
+     ✅ Allez au Google Sheet → changement y est visible
+
+════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 10: BONUS - MISES À JOUR FUTURES
+──────────────────────────────────────────────────────────────────────────────
+
+Chaque fois que vous modifiez le code localement:
+
+10.1. PowerShell (D:\SFA Works\T-05):
+      git add -A
+      git commit -m "Description du changement"
+      git push origin main
+
+10.2. Streamlit Cloud redéploie AUTOMATIQUEMENT (quelques secondes)
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSUMÉ DES URLS
+
+Dépôt Code:        https://github.com/VOTRE_USERNAME/sfa-works-incidents
+App en ligne:      https://share.streamlit.io/VOTRE_USERNAME/sfa-works-incidents
+Google Sheet:      https://docs.google.com/spreadsheets/d/1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0/edit
+Streamlit Cloud:   https://share.streamlit.io/
+
+════════════════════════════════════════════════════════════════════════════
+
+COÛTS
+
+GitHub:            GRATUIT (repos privés inclus)
+Streamlit Cloud:   GRATUIT (1 app, 1 CPU)
+Google Sheets:     GRATUIT
+
+TOTAL: 0 €/mois 🎉
+
+════════════════════════════════════════════════════════════════════════════
+
+DÉPANNAGE RAPIDE
+
+Erreur "Module not found":
+  → requirements.txt manque gspread/google-auth
+     Vérifier: pip list | findstr gspread
+
+Erreur "PERMISSION_DENIED":
+  → Sheet pas partagé avec service account
+     Vérifier: Partager → to-05-649@...
+
+Erreur "No module named 'streamlit'":
+  → Impossible sur Streamlit Cloud (devrait fonctionner)
+     Vérifier les logs: Settings → Logs
+
+Problème après git push:
+  → Attendre 2-3 minutes (redéploiement automatique)
+  → Rafraîchir la page (Ctrl+F5)
+  → Vérifier les logs
+
+════════════════════════════════════════════════════════════════════════════
+
+C'EST PARTI ! 🚀
+
+Vous êtes où dans le processus ? Dites-moi si vous êtes bloqué à une étape.

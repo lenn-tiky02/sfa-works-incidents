@@ -1,0 +1,137 @@
+════════════════════════════════════════════════════════════════════════════
+
+              ✅ PRÉ-DÉPLOIEMENT CHECKLIST - STREAMILIT CLOUD
+
+════════════════════════════════════════════════════════════════════════════
+
+Avant de commencer le déploiement, vérifiez tous ces points:
+
+COMPTES & AUTHENTIFICATION
+──────────────────────────────────────────────────────────────────────────────
+
+□ Vous avez un compte GitHub
+  Si non: https://github.com/signup
+
+□ Vous avez un compte Google (pour Google Sheets)
+  Si non: https://accounts.google.com/signup
+
+□ Vous avez installé Git localement
+  Vérifier: git --version (doit afficher une version)
+
+
+CODE & FICHIERS
+──────────────────────────────────────────────────────────────────────────────
+
+□ D:\SFA Works\T-05\ contient:
+  ✓ app.py (modifié pour st.secrets)
+  ✓ requirements.txt (avec gspread, google-auth)
+  ✓ credentials.json
+  ✓ .gitignore (exclut credentials.json)
+  ✓ .streamlit/config.toml
+  
+  Vérifier: dir "D:\SFA Works\T-05\" | findstr app.py requirements.txt
+
+
+DÉPENDANCES INSTALLÉES LOCALEMENT
+──────────────────────────────────────────────────────────────────────────────
+
+□ gspread installé
+  Vérifier: .\venv\Scripts\python.exe -m pip list | findstr gspread
+  Doit afficher: gspread    5.12.4
+
+□ google-auth installé
+  Vérifier: .\venv\Scripts\python.exe -m pip list | findstr google-auth
+  Doit afficher: google-auth    2.35.0
+
+□ requirements.txt est à jour
+  Vérifier: cat requirements.txt | findstr gspread
+  Doit montrer: gspread==5.12.4
+
+
+GOOGLE SHEETS
+──────────────────────────────────────────────────────────────────────────────
+
+□ Vous avez le Google Sheet NATIF (pas un .xlsx importé)
+  Lien: https://docs.google.com/spreadsheets/d/1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0/edit
+
+□ Le Sheet contient des données (at least 1 ligne + en-têtes)
+  Vérifier: Ouvrez le lien ci-dessus
+
+□ Le Sheet est partagé en ÉDITEUR avec:
+  to-05-649@unique-hour-385920.iam.gserviceaccount.com
+  
+  Vérifier: Cliquez « Partager » → vérifiez l'email
+
+
+CREDENTIALS
+──────────────────────────────────────────────────────────────────────────────
+
+□ credentials.json existe et est VALIDE
+  Vérifier: Ouvrez-le, doit contenir:
+    {
+      "type": "service_account",
+      "project_id": "unique-hour-385920",
+      ...
+    }
+
+□ credentials.json n'est PAS committé
+  Vérifier: git status
+  credentials.json ne doit PAS apparaître
+
+
+GIT LOCAL
+──────────────────────────────────────────────────────────────────────────────
+
+□ Vous avez initialisé Git:
+  Vérifier: ls .git (doit afficher le dossier .git)
+
+□ Vous avez fait un commit:
+  Vérifier: git log (doit afficher un commit)
+
+□ Vous avez ajouté tous les fichiers importants:
+  Vérifier: git status
+  Doit afficher: "On branch main/master, nothing to commit"
+               (ou "nothing to commit, working tree clean")
+
+
+APP FONCTIONNE LOCALEMENT
+──────────────────────────────────────────────────────────────────────────────
+
+□ L'app démarre sans erreur:
+  Commande: .\venv\Scripts\streamlit.exe run app.py
+  
+  Résultat attendu:
+    ✅ "✅ XXX lignes chargées depuis Google Sheets"
+    ✅ "🟢 Connecté à Google Sheets" (barre latérale)
+    ✅ Aucune erreur dans la console
+
+□ Les tableaux sont modifiables:
+  Essai: Cliquez sur une catégorie, modifiez → doit sauvegarder au Sheet
+
+
+OPTIONNEL - REVIEW FINAL
+──────────────────────────────────────────────────────────────────────────────
+
+□ Lisez DEPLOYMENT_STEPS.txt (juste pour vous préparer)
+□ Notez votre username GitHub
+□ Notez votre email GitHub
+□ Préparez le contenu de credentials.json (copie-pâte rapide)
+
+
+════════════════════════════════════════════════════════════════════════════
+
+SI TOUS LES ✅ SONT COCHÉS:
+
+Vous êtes PRÊT pour le déploiement !
+
+Suivez: DEPLOYMENT_STEPS.txt (étapes 1-10)
+
+════════════════════════════════════════════════════════════════════════════
+
+SI UN ❌ RESTE:
+
+Dites-moi lequel → je vous aide avant le déploiement.
+
+════════════════════════════════════════════════════════════════════════════
+
+PRÊT ? 🚀

@@ -1,0 +1,141 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                   🚨 ACTION IMMÉDIATE - ERREUR OPENPYXL 🚨               ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+PROBLÈME:
+=========
+ERROR: Could not find a version that satisfies the requirement openpyxl>=3.10.0
+
+RAISON:
+=======
+openpyxl>=3.10.0 n'existe pas (max = 3.1.5)
+Le fichier requirements.txt avait une mauvaise version
+
+SOLUTION:
+=========
+✅ Le fichier requirements.txt a été CORRIGÉ
+
+Nouvelles versions (correctes):
+  • streamlit==1.28.1 ✓
+  • pandas==2.0.3 ✓
+  • openpyxl==3.1.5 ✓ (CORRIGÉ: était >=3.10.0)
+  • plotly==5.17.0 ✓
+
+════════════════════════════════════════════════════════════════════════════
+
+À FAIRE MAINTENANT:
+===================
+
+OPTION 1: Supprimer et Recommencer (Recommandé)
+================================================
+
+1. Ouvrir PowerShell
+   Appuyez sur: Win + X, puis A
+
+2. Taper:
+   cd "D:\SFA Works\T-05"
+
+3. Supprimer l'ancien environnement:
+   Remove-Item -Recurse -Force venv
+
+4. Relancer avec le nouveau fichier:
+   .\launch.ps1
+
+   OU double-cliquez: launch.ps1
+
+
+OPTION 2: Utiliser start.bat (Le Plus Simple)
+==============================================
+
+1. Double-cliquez sur: start.bat
+
+   C'est tout! Les dépendances s'installent automatiquement.
+
+
+OPTION 3: Installation Manuelle
+===============================
+
+1. Ouvrir PowerShell
+   Appuyez sur: Win + X, puis A
+
+2. Taper:
+   cd "D:\SFA Works\T-05"
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   streamlit run app.py
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSULTAT ATTENDU:
+=================
+
+Vous devriez voir:
+
+"You can now view your Streamlit app in your browser.
+Local URL: http://localhost:8501"
+
+✅ SUCCÈS! Le dashboard s'affiche!
+
+════════════════════════════════════════════════════════════════════════════
+
+FICHIERS À UTILISER:
+====================
+
+Pour lancer:
+  ✅ start.bat                    (Windows - Double-cliquez)
+  ✅ launch.ps1                   (PowerShell)
+  ✅ run_simple.bat               (Batch alternatif)
+
+Dépendances:
+  ✅ requirements.txt             (CORRIGÉ - utilisez celui-ci!)
+  ✅ requirements_minimal.txt     (Alternative légère)
+
+Aide:
+  ✅ FIX_OPENPYXL.md             (Détails du fix)
+  ✅ TROUBLESHOOTING.md          (Guide complet)
+
+════════════════════════════════════════════════════════════════════════════
+
+VÉRIFICATION RAPIDE:
+====================
+
+Après installation, vérifiez:
+
+pip list | findstr openpyxl
+→ Devrait afficher: openpyxl 3.1.5
+
+pip list | findstr streamlit
+→ Devrait afficher: streamlit 1.28.1
+
+pip list | findstr pandas
+→ Devrait afficher: pandas 2.0.3
+
+════════════════════════════════════════════════════════════════════════════
+
+PROCHAINES ÉTAPES:
+==================
+
+1. Supprimer venv (recommandé)
+   Remove-Item -Recurse -Force venv
+
+2. Relancer avec le nouveau fichier requirements.txt
+   .\launch.ps1
+   OU
+   start.bat
+
+3. Attendre 2-3 minutes (installation)
+
+4. Voir le dashboard à http://localhost:8501
+
+5. ✅ SUCCÈS!
+
+════════════════════════════════════════════════════════════════════════════
+
+C'EST PARTI! 🚀
+
+Double-cliquez sur: start.bat
+
+════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,81 @@
+════════════════════════════════════════════════════════════════════════════
+
+            🚀 GOOGLE SHEETS INTÉGRATION - DÉMARRAGE RAPIDE
+
+════════════════════════════════════════════════════════════════════════════
+
+FAIT JUSTE:
+  • Code modifié pour utiliser Google Sheets natif
+  • Nouvel ID du Sheet: 1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0
+  • credentials.json présent et valide
+
+════════════════════════════════════════════════════════════════════════════
+
+CE QUE VOUS DEVEZ FAIRE (3 ÉTAPES):
+
+1️⃣  INSTALLER LES DÉPENDANCES
+────────────────────────────────────────────────────────────────────────────
+
+PowerShell (dans D:\SFA Works\T-05):
+
+  cd "D:\SFA Works\T-05"
+  .\venv\Scripts\python.exe -m pip install "gspread==5.12.4" "google-auth==2.35.0"
+
+Attendez quelques secondes → "Successfully installed gspread ... google-auth ..."
+
+
+2️⃣  PARTAGER LE GOOGLE SHEET AVEC LE COMPTE DE SERVICE
+────────────────────────────────────────────────────────────────────────────
+
+Ouvrez ce lien:
+  https://docs.google.com/spreadsheets/d/1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0/edit
+
+Cliquez « Partager » → Ajoutez cet email en tant qu'ÉDITEUR:
+  to-05-649@unique-hour-385920.iam.gserviceaccount.com
+
+
+3️⃣  LANCER L'APPLICATION
+────────────────────────────────────────────────────────────────────────────
+
+PowerShell (même répertoire):
+
+  .\venv\Scripts\streamlit.exe run app.py
+
+Un navigateur s'ouvrira sur http://localhost:8501
+
+
+════════════════════════════════════════════════════════════════════════════
+
+✅ QUAND C'EST PRÊT:
+
+  • Barre latérale affiche: 🟢 Connecté à Google Sheets
+  • Bouton: 🔄 Recharger depuis Google Sheets
+  • Vous pouvez modifier les catégories → sauvegardées au Sheet
+  • Vous pouvez ajouter des lignes au Sheet → visibles au redémarrage/rechargement
+
+════════════════════════════════════════════════════════════════════════════
+
+❌ SI ERREUR:
+
+  • Erreur "PERMISSION_DENIED" ou "not found"
+    → Vérifiez que le Sheet est partagé avec to-05-649@... en Éditeur
+
+  • Erreur "This operation is not supported"
+    → Le Sheet n'est pas natif (utilisez le lien ci-dessus, pas l'ancien)
+
+  • Autre erreur
+    → Décrivez-la et je corrige !
+
+════════════════════════════════════════════════════════════════════════════
+
+IMPORTANT:
+
+  ⚠️  NE JAMAIS COMMITER credentials.json (contient une clé secrète)
+      Le .gitignore l'exclut déjà.
+
+  ✅ À partir de maintenant, le Sheet est votre source de données unique
+     (plus besoin du Excel local)
+
+════════════════════════════════════════════════════════════════════════════
+
+Allez-y ! 🚀

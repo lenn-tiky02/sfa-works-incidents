@@ -1,0 +1,72 @@
+════════════════════════════════════════════════════════════════════════════
+
+                   ✅ PRE-LAUNCH CHECKLIST
+
+════════════════════════════════════════════════════════════════════════════
+
+Avant de lancer l'app, vérifiez chaque point:
+
+□ 1. Fichier credentials.json existe dans D:\SFA Works\T-05\
+     Vérifier: dir D:\SFA Works\T-05\credentials.json
+     
+□ 2. requirements.txt contient gspread et google-auth
+     Vérifier: Fichier type SHEET_ID = "1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0"
+     
+□ 3. Dépendances installées
+     Commande: .\venv\Scripts\python.exe -m pip list | findstr gspread
+     Doit afficher: gspread    5.12.4
+     
+□ 4. Google Sheet créé et partagé
+     Lien: https://docs.google.com/spreadsheets/d/1a7HZ4sBpNm8XrNjN0zSc4smsmPqTEKderM0G80NTFr0/edit
+     Email partagé: to-05-649@unique-hour-385920.iam.gserviceaccount.com
+     Permission: ÉDITEUR
+     
+□ 5. Google Sheet a des données (au moins 1 ligne + en-têtes)
+     Vérifier: Ouvrez le lien ci-dessus, voyez les colonnes
+
+════════════════════════════════════════════════════════════════════════════
+
+RÉSULTAT ATTENDU AU LANCEMENT:
+
+Console (PowerShell):
+  ────────────────────────────────────────
+  You can now view your Streamlit app in your browser.
+  
+  Local URL: http://localhost:8501
+  
+  ────────────────────────────────────────
+
+Navigateur:
+  ✅ Message vert: "✅ XXX lignes chargées depuis Google Sheets"
+  ✅ Barre latérale: "🟢 Connecté à Google Sheets"
+  ✅ Bouton: "🔄 Recharger depuis Google Sheets"
+
+════════════════════════════════════════════════════════════════════════════
+
+SI QUELQUE CHOSE NE FONCTIONNE PAS:
+
+  • Erreur d'authentification (PERMISSION_DENIED)
+    → Vérifiez le partage du Sheet avec to-05-649@...
+
+  • Erreur "credentials.json not found"
+    → Vérifiez que le fichier est bien dans D:\SFA Works\T-05\
+
+  • Erreur "This operation is not supported for this document"
+    → Utilisez le nouveau Google Sheets natif, pas l'ancien Excel importé
+
+  • Erreur "No module named 'gspread'"
+    → Réinstallez: .\venv\Scripts\python.exe -m pip install gspread google-auth
+
+════════════════════════════════════════════════════════════════════════════
+
+COMMANDES À EXÉCUTER (DANS L'ORDRE):
+
+1. cd "D:\SFA Works\T-05"
+
+2. .\venv\Scripts\python.exe -m pip install "gspread==5.12.4" "google-auth==2.35.0"
+
+3. .\venv\Scripts\streamlit.exe run app.py
+
+════════════════════════════════════════════════════════════════════════════
+
+C'est parti ! 🚀
