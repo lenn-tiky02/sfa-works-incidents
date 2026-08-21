@@ -85,21 +85,71 @@ def _get_worksheet():
     """Ouvrir la 1re feuille du Google Sheet (connexion mise en cache)."""
     from google.oauth2.service_account import Credentials
     import gspread
+    import json as json_lib
     
-    # En production (Streamlit Cloud) : utiliser st.secrets
+    creds_dict = None
+    creds_source = None
+    
+    # Priorité 1: Streamlit Secrets - format chaîne JSON (multilignes)
     if 'GOOGLE_CREDENTIALS' in st.secrets:
-        creds_dict = st.secrets['GOOGLE_CREDENTIALS']
-        if isinstance(creds_dict, str):
-            import json
-            creds_dict = json.loads(creds_dict)
-        creds = Credentials.from_service_account_info(creds_dict, scopes=GS_SCOPES)
-    # En local : utiliser credentials.json
-    else:
-        creds = Credentials.from_service_account_file(CREDENTIALS_FILE, scopes=GS_SCOPES)
+        creds_source = "Streamlit Secrets [GOOGLE_CREDENTIALS] (string)"
+        try:
+            creds_value = st.secrets['GOOGLE_CREDENTIALS']
+            # Si c'est une chaîne (format triple-quotes), la parser en JSON
+            if isinstance(creds_value, str):
+                creds_dict = json_lib.loads(creds_value)
+            # Sinon c'est un dict TOML (format [google_credentials])
+            else:
+                creds_dict = creds_value
+        except Exception as e:
+            raise Exception(f"Erreur de parsing du secret GOOGLE_CREDENTIALS: {e}")
     
-    client = gspread.authorize(creds)
-    sh = client.open_by_key(SHEET_ID)
-    return sh.get_worksheet(0)
+    # Priorité 2: Streamlit Secrets - format TOML dict
+    elif 'google_credentials' in st.secrets:
+        creds_source = "Streamlit Secrets [google_credentials] (TOML dict)"
+        creds_dict = dict(st.secrets['google_credentials'])
+    
+    # Priorité 3: Fichier credentials.json en local
+    elif os.path.exists(CREDENTIALS_FILE):
+        creds_source = f"Fichier local: {CREDENTIALS_FILE}"
+        with open(CREDENTIALS_FILE, encoding='utf-8') as f:
+            creds_dict = json_lib.load(f)
+    
+    # Aucune source trouvée
+    else:
+        raise Exception(
+            "❌ Credentials introuvables!\n\n"
+            "**Streamlit Cloud - Option 1 (Recommandée):**\n"
+            "1. Settings > Secrets\n"
+            "2. Copie-colle le contenu de credentials.json:\n"
+            "   ```\n"
+            "   GOOGLE_CREDENTIALS = \"\"\"{\n"
+            "     \"type\": \"service_account\",\n"
+            "     \"project_id\": \"...\",\n"
+            "     ...\n"
+            "   }\"\"\"\n"
+            "   ```\n\n"
+            "**Streamlit Cloud - Option 2:**\n"
+            "   ```\n"
+            "   [google_credentials]\n"
+            "   type = \"service_account\"\n"
+            "   project_id = \"...\"\n"
+            "   ...\n"
+            "   ```\n\n"
+            "**Local:**\n"
+            "- Place credentials.json dans: " + CREDENTIALS_FILE
+        )
+    
+    if not creds_dict:
+        raise Exception("Credentials dict est vide!")
+    
+    try:
+        creds = Credentials.from_service_account_info(creds_dict, scopes=GS_SCOPES)
+        client = gspread.authorize(creds)
+        sh = client.open_by_key(SHEET_ID)
+        return sh.get_worksheet(0)
+    except Exception as e:
+        raise Exception(f"Erreur lors de la connexion au Google Sheet (source: {creds_source}): {e}")
 
 @st.cache_data(ttl=60, show_spinner=False)
 def load_sheet_data():
@@ -272,10 +322,22 @@ if has_credentials:
             gs_error = "Le Google Sheet est vide ou illisible."
             df = None
     except Exception as e:
-        gs_error = str(e)
+        gs_error = f"Erreur lors du chargement: {str(e)}"
         df = None
 else:
-    gs_error = "Credentials Google non trouvés (credentials.json en local OU GOOGLE_CREDENTIALS dans secrets Streamlit)."
+    gs_error = (
+        "❌ Credentials Google non trouvés!\n\n"
+        "**Streamlit Cloud:**\n"
+        "1. Va dans Settings > Secrets\n"
+        "2. Ajoute:\n"
+        "   ```\n"
+        "   GOOGLE_CREDENTIALS = \"\"\"{\n"
+        "     (contenu du JSON credentials.json ici)\n"
+        "   }\"\"\"\n"
+        "   ```\n\n"
+        "**Local:**\n"
+        "- Place credentials.json dans: " + CREDENTIALS_FILE
+    )
 
 st.session_state.use_gsheets = use_gsheets
 
