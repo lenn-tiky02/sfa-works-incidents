@@ -310,8 +310,22 @@ use_gsheets = False
 df = None
 gs_error = None
 
-# Vérifier si on a les credentials (en local OU en Streamlit Cloud via secrets)
-has_credentials = os.path.exists(CREDENTIALS_FILE) or 'GOOGLE_CREDENTIALS' in st.secrets
+# Lister en toute sécurité les clés disponibles dans st.secrets (diagnostic)
+def _list_secret_keys():
+    try:
+        return list(st.secrets.keys())
+    except Exception:
+        return []
+
+_secret_keys = _list_secret_keys()
+
+# Vérifier si on a les credentials (en local OU en Streamlit Cloud via secrets).
+# On accepte les deux formats: GOOGLE_CREDENTIALS (string) et google_credentials (TOML dict).
+has_credentials = (
+    os.path.exists(CREDENTIALS_FILE)
+    or 'GOOGLE_CREDENTIALS' in _secret_keys
+    or 'google_credentials' in _secret_keys
+)
 
 if has_credentials:
     try:
@@ -325,18 +339,21 @@ if has_credentials:
         gs_error = f"Erreur lors du chargement: {str(e)}"
         df = None
 else:
+    keys_txt = ', '.join(_secret_keys) if _secret_keys else '(aucun secret détecté)'
     gs_error = (
         "❌ Credentials Google non trouvés!\n\n"
-        "**Streamlit Cloud:**\n"
-        "1. Va dans Settings > Secrets\n"
-        "2. Ajoute:\n"
-        "   ```\n"
-        "   GOOGLE_CREDENTIALS = \"\"\"{\n"
-        "     (contenu du JSON credentials.json ici)\n"
-        "   }\"\"\"\n"
-        "   ```\n\n"
-        "**Local:**\n"
-        "- Place credentials.json dans: " + CREDENTIALS_FILE
+        f"**Clés secrètes actuellement vues par Streamlit:** {keys_txt}\n\n"
+        "La clé doit s'appeler EXACTEMENT `GOOGLE_CREDENTIALS`.\n\n"
+        "**Streamlit Cloud → Settings → Secrets, colle ceci:**\n"
+        "```\n"
+        "GOOGLE_CREDENTIALS = '''{\n"
+        "  \"type\": \"service_account\",\n"
+        "  \"project_id\": \"...\",\n"
+        "  ... (tout le contenu de credentials.json) ...\n"
+        "}'''\n"
+        "```\n"
+        "Puis clique **Save** et attends le redémarrage.\n\n"
+        "**Local:** place credentials.json dans: " + CREDENTIALS_FILE
     )
 
 st.session_state.use_gsheets = use_gsheets
